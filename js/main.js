@@ -24,24 +24,40 @@ var cards = [
 ];
 
 var cardsInPlay = [];
+var cardNum;
+var cardElement;
 
 var checkForMatch = function(){
+
   if(cardsInPlay.length===2){
     if(cardsInPlay[0]===cardsInPlay[1])
-      console.log("You found a match!");
+      alert("You found a match!");
     else
-      console.log("Sorry, try again");
+      alert("Sorry, try again");
   }
 }
 
-var cardNum;
-var flipCard = function(cardNum){
+var flipCard = function(){
+  var cardNum = this.getAttribute("data-id")
+  this.setAttribute("src",cards[cardNum].cardImage);
+
   console.log("User flipped " + cards[cardNum].rank);
   console.log(cards[cardNum].cardImage);
   console.log(cards[cardNum].suit);
   cardsInPlay.push(cards[cardNum].rank);
 
-  checkForMatch();
+  setTimeout(checkForMatch, 100);
 }
-flipCard(0);
-flipCard(3);
+
+var createBoard = function(){
+  for(var i=0; i<cards.length; i++){
+    cardElement = document.createElement('img');
+    cardElement.setAttribute("src", "images/back.png");
+    cardElement.setAttribute("data-id", i);
+
+    cardElement.addEventListener("click", flipCard);
+    document.getElementById("gameboard").appendChild(cardElement);
+  }
+}
+
+createBoard();
