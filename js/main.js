@@ -23,6 +23,11 @@ var cards = [
   },
 ];
 
+var dispScore = document.createElement('p');
+document.getElementById("scoreDiv").appendChild(dispScore);
+var scoreValue = 0;
+dispScore.innerHTML = scoreValue;
+
 var cardsInPlay = [];
 var cardNum;
 var cardElement;
@@ -30,11 +35,15 @@ var cardElement;
 var checkForMatch = function(){
 
   if(cardsInPlay.length===2){
-    if(cardsInPlay[0]===cardsInPlay[1])
+    if(cardsInPlay[0]===cardsInPlay[1]){
       alert("You found a match!");
-    else
+      scoreValue = scoreValue + 2;
+      console.log(scoreValue);
+
+    }else
       alert("Sorry, try again");
   }
+
 }
 
 var flipCard = function(){
@@ -46,8 +55,9 @@ var flipCard = function(){
   console.log(cards[cardNum].suit);
   cardsInPlay.push(cards[cardNum].rank);
 
-  setTimeout(checkForMatch, 100);
+  setTimeout(checkForMatch, 200);
 }
+
 
 var createBoard = function(){
   for(var i=0; i<cards.length; i++){
@@ -57,7 +67,19 @@ var createBoard = function(){
 
     cardElement.addEventListener("click", flipCard);
     document.getElementById("gameboard").appendChild(cardElement);
+
+
   }
 }
 
 createBoard();
+
+var resetButton = document.getElementsByTagName('button');
+var resetButtonClicked = function(){
+  cardsInPlay = [];
+  var cardImgs = document.getElementsByTagName('img');
+    for(var i=0; i<cardImgs.length; i++){
+      cardImgs[i].setAttribute("src","images/back.png");
+    }
+}
+resetButton[0].addEventListener("click",resetButtonClicked);
