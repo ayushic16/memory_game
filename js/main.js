@@ -21,31 +21,86 @@ var cards = [
     suit: "diamonds",
     cardImage: "images/king-of-diamonds.png"
   },
+  {
+    rank: "queen",
+    suit: "hearts",
+    cardImage: "images/queen-of-hearts.png"
+  },
+  {
+    rank: "queen",
+    suit: "diamonds",
+    cardImage: "images/queen-of-diamonds.png"
+  },
+  {
+    rank: "king",
+    suit: "hearts",
+    cardImage: "images/king-of-hearts.png"
+  },
+  {
+    rank: "king",
+    suit: "diamonds",
+    cardImage: "images/king-of-diamonds.png"
+  },
+  {
+    rank: "queen",
+    suit: "hearts",
+    cardImage: "images/queen-of-hearts.png"
+  },
+  {
+    rank: "queen",
+    suit: "diamonds",
+    cardImage: "images/queen-of-diamonds.png"
+  },
+  {
+    rank: "king",
+    suit: "hearts",
+    cardImage: "images/king-of-hearts.png"
+  },
+  {
+    rank: "king",
+    suit: "diamonds",
+    cardImage: "images/king-of-diamonds.png"
+  },
+
 ];
 
 var dispScore = document.createElement('p');
 document.getElementById("scoreDiv").appendChild(dispScore);
 var scoreValue = 0;
-dispScore.innerHTML = scoreValue;
 
 var cardsInPlay = [];
 var cardNum;
 var cardElement;
 
-var checkForMatch = function(){
+//creating a function to shuffle the cards
+var shuffle = function(){
+  var j;
+  var temp = null;
+  for(var i=cards.length-1; i>0; i-=1){
+    j = Math.floor(Math.random()*(i+1));
+    temp = cards[i];
+    cards[i] = cards[j];
+    cards[j] = temp;
+  }
+}
+shuffle();
 
+//creating check for match function
+var checkForMatch = function(){
   if(cardsInPlay.length===2){
     if(cardsInPlay[0]===cardsInPlay[1]){
-      alert("You found a match!");
+      console.log("You found a match!");
       scoreValue = scoreValue + 2;
       console.log(scoreValue);
-
+      dispScore.innerHTML = scoreValue;
+      cardsInPlay = [];
     }else
-      alert("Sorry, try again");
+      console.log("Sorry, try again");
+      cardsInPlay = [];
   }
-
 }
 
+//creating the flipcard function, and calling checkForMatch function
 var flipCard = function(){
   var cardNum = this.getAttribute("data-id")
   this.setAttribute("src",cards[cardNum].cardImage);
@@ -55,25 +110,25 @@ var flipCard = function(){
   console.log(cards[cardNum].suit);
   cardsInPlay.push(cards[cardNum].rank);
 
+  console.log(cardsInPlay);
   setTimeout(checkForMatch, 200);
 }
 
-
+//creating the gameboard, and setting eventlistener for click to call flipcard function
 var createBoard = function(){
   for(var i=0; i<cards.length; i++){
     cardElement = document.createElement('img');
     cardElement.setAttribute("src", "images/back.png");
     cardElement.setAttribute("data-id", i);
-
-    cardElement.addEventListener("click", flipCard);
     document.getElementById("gameboard").appendChild(cardElement);
 
+    cardElement.addEventListener("click", flipCard);
 
   }
 }
-
 createBoard();
 
+//creating reset button
 var resetButton = document.getElementsByTagName('button');
 var resetButtonClicked = function(){
   cardsInPlay = [];
@@ -81,5 +136,7 @@ var resetButtonClicked = function(){
     for(var i=0; i<cardImgs.length; i++){
       cardImgs[i].setAttribute("src","images/back.png");
     }
+    dispScore.innerHTML = 0;
+    shuffle();
 }
 resetButton[0].addEventListener("click",resetButtonClicked);
