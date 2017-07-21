@@ -136,6 +136,7 @@ var resetButtonClicked = function(){
     for(var i=0; i<cardImgs.length; i++){
       cardImgs[i].setAttribute("src","images/back.png");
     }
+    scoreValue=0;
     dispScore.innerHTML = 0;
     shuffle();
 }
